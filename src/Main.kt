@@ -1,7 +1,7 @@
-
 fun main() {
-    val quiz = Quiz()
+    val quiz = Quiz().apply { ImprimirQuiz() }
     quiz.PintarBarraProgreso()
+
 }
 
 data class Pregunta<T>(
@@ -22,9 +22,9 @@ interface BarraProgreso {
 
 class Quiz : BarraProgreso {
 
-   // var pregunta = Pregunta<Int>("ds", 12, dmDificultad.FACIL)
-   // var pregunta2 = Pregunta<Boolean>("ds", true, dmDificultad.MEDIO)
-   // var pregunta3 = Pregunta<String>("ds", "Hello World!", dmDificultad.DURO)
+    var pregunta = Pregunta<Int>("pregunta numero uno", 12, dmDificultad.FACIL)
+    var pregunta2 = Pregunta<Boolean>("pregunta dos", true, dmDificultad.MEDIO)
+    var pregunta3 = Pregunta<String>("pregunta tres", "Hello World!", dmDificultad.DURO)
 
     companion object ProgresoEstudiante {
         var total: Int = 10
@@ -40,5 +40,27 @@ class Quiz : BarraProgreso {
         repeat(Quiz.total - Quiz.respondida) { print("▒") }
         println()
         println(progresoTexto)
+    }
+
+    fun ImprimirQuiz() {
+        pregunta.let {
+            println(it.pregunta)
+            println(it.respuesta)
+            println(it.dificultad)
+        }
+
+        pregunta2.let {
+            println(it.pregunta)
+            println(it.respuesta)
+            println(it.dificultad)
+        }
+
+        pregunta3.let {
+            println(it.pregunta)
+            println(it.respuesta)
+            println(it.dificultad)
+        }
+
+
     }
 }
