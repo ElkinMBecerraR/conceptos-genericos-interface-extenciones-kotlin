@@ -1,66 +1,45 @@
+import java.math.BigDecimal
+
 fun main() {
-    val quiz = Quiz().apply { ImprimirQuiz() }
-    quiz.PintarBarraProgreso()
+    val menuCompleto = galleta.map { "${it.nombre} - $${it.precio}" }
+    menuCompleto.forEach { println(it) }
+
+    val galletaConRelleno = galleta.filter { it.relleno != true }
+    galletaConRelleno.forEach { println( "Galletas sin relleno ${it.nombre}") }
+
+    val menuAgrupado = galleta.groupBy { it.relleno }
+
+    val listRelleno = menuAgrupado[true] ?: emptyList()
+    val listaSinRelleno = menuAgrupado[false] ?: emptyList()
+
+    println("Lista con el groupBy")
+    listRelleno.forEach { println(it.nombre) }
+    println("Lista con el groupBy sin relleno")
+    listaSinRelleno.forEach { println(it.nombre) }
+
+    var precioTotal = galleta.fold(0.0) { total, galleta -> total + galleta.precio }
+    println("Precio Total: $${precioTotal}")
+
+    var listaOrdenada = galleta.sortedBy { it.precio }
+
+    listaOrdenada.forEach { println(it.precio) }
 
 }
 
-data class Pregunta<T>(
-    var pregunta: String,
-    var respuesta: T,
-    var dificultad: dmDificultad
+class Galleta(
+    var nombre: String,
+    var precio: Int,
+    var alHorno: Boolean,
+    var relleno: Boolean
 ) {
+
 }
 
-enum class dmDificultad {
-    FACIL, MEDIO, DURO
-}
-
-interface BarraProgreso {
-    var progresoTexto: String
-    fun PintarBarraProgreso()
-}
-
-class Quiz : BarraProgreso {
-
-    var pregunta = Pregunta<Int>("pregunta numero uno", 12, dmDificultad.FACIL)
-    var pregunta2 = Pregunta<Boolean>("pregunta dos", true, dmDificultad.MEDIO)
-    var pregunta3 = Pregunta<String>("pregunta tres", "Hello World!", dmDificultad.DURO)
-
-    companion object ProgresoEstudiante {
-        var total: Int = 10
-        var respondida: Int = 3
-
-    }
-
-    override var progresoTexto: String = ""
-        get() = "${Quiz.total} de  ${Quiz.respondida}"
-
-    override fun PintarBarraProgreso() {
-        repeat(Quiz.respondida) { print("▓") }
-        repeat(Quiz.total - Quiz.respondida) { print("▒") }
-        println()
-        println(progresoTexto)
-    }
-
-    fun ImprimirQuiz() {
-        pregunta.let {
-            println(it.pregunta)
-            println(it.respuesta)
-            println(it.dificultad)
-        }
-
-        pregunta2.let {
-            println(it.pregunta)
-            println(it.respuesta)
-            println(it.dificultad)
-        }
-
-        pregunta3.let {
-            println(it.pregunta)
-            println(it.respuesta)
-            println(it.dificultad)
-        }
-
-
-    }
-}
+var galleta = listOf(
+    Galleta("Pan Or", 1200, false, true),
+    Galleta("Olla Or", 3200, true, false),
+    Galleta("Dir Sor", 6500, false, true),
+    Galleta("Pan Or", 6588, false, true),
+    Galleta("Pan Or", 3000, false, true),
+    Galleta("Churro Or", 2000, true, true),
+)
