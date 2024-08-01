@@ -1,8 +1,7 @@
-import Quiz.ProgresoEstudiante.barraProgreso
-import Quiz.ProgresoEstudiante.progresoTexto
 
 fun main() {
-    Quiz.barraProgreso()
+    val quiz = Quiz()
+    quiz.PintarBarraProgreso()
 }
 
 data class Pregunta<T>(
@@ -12,33 +11,34 @@ data class Pregunta<T>(
 ) {
 }
 
-enum class dmDificultad{
+enum class dmDificultad {
     FACIL, MEDIO, DURO
 }
 
-class Quiz{
-    var pregunta = Pregunta<Int>("ds",12,dmDificultad.FACIL)
-    var pregunta2 = Pregunta<Boolean>("ds",true,dmDificultad.MEDIO)
-    var pregunta3 = Pregunta<String>("ds","Hello World!",dmDificultad.DURO)
+interface BarraProgreso {
+    var progresoTexto: String
+    fun PintarBarraProgreso()
+}
 
-   companion object ProgresoEstudiante {
+class Quiz : BarraProgreso {
+
+   // var pregunta = Pregunta<Int>("ds", 12, dmDificultad.FACIL)
+   // var pregunta2 = Pregunta<Boolean>("ds", true, dmDificultad.MEDIO)
+   // var pregunta3 = Pregunta<String>("ds", "Hello World!", dmDificultad.DURO)
+
+    companion object ProgresoEstudiante {
         var total: Int = 10
         var respondida: Int = 3
 
-       val Quiz.ProgresoEstudiante.progresoTexto: String
-           get() = "${Quiz.total} de  ${Quiz.respondida}"
-
-
-       fun Quiz.ProgresoEstudiante.barraProgreso(){
-           repeat(Quiz.respondida) { print("▓") }
-           repeat(Quiz.total -Quiz.respondida){print("▒")}
-           println()
-           println(Quiz.progresoTexto)
-       }
-
     }
 
+    override var progresoTexto: String = ""
+        get() = "${Quiz.total} de  ${Quiz.respondida}"
+
+    override fun PintarBarraProgreso() {
+        repeat(Quiz.respondida) { print("▓") }
+        repeat(Quiz.total - Quiz.respondida) { print("▒") }
+        println()
+        println(progresoTexto)
+    }
 }
-
-
-
